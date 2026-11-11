@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="約数の和が入力した数になる正の整数を探す、川島数の計算ツール。">
+  <meta name="description" content="約数の和が入力した数になる正の整数を探す、カワシマ数の計算ツール。">
   <meta name="theme-color" content="#f5f5ee">
-  <title>川島数を調べる</title>
+  <title>カワシマ数を調べる</title>
   <style>
     :root {
       color-scheme: light;
@@ -31,13 +31,9 @@
     .brand { display: flex; align-items: center; gap: 11px; font-size: .91rem; font-weight: 800; }
     .mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 8px; background: var(--forest); color: var(--lime); font: 1.28rem Georgia, serif; }
     .jump { font-size: .83rem; font-weight: 700; text-decoration-color: #839987; text-underline-offset: 5px; }
-    .hero { display: grid; grid-template-columns: 1.5fr 1fr; align-items: center; gap: 42px; padding-block: 54px 42px; }
+    .hero { padding-block: 42px 32px; }
     h1 { font-size: clamp(2.6rem, 5.9vw, 4.65rem); letter-spacing: -.065em; line-height: 1.14; font-weight: 850; }
     .lead { margin-top: 20px; color: var(--muted); font-size: clamp(.95rem, 1.6vw, 1.08rem); }
-    .formula { background: var(--forest); color: #f5fae7; border-radius: 16px; padding: 21px 28px 23px; }
-    .formula p:first-child { color: var(--lime); font-size: .78rem; font-weight: 800; letter-spacing: .12em; }
-    .equation { margin-block: 2px 4px; font: italic clamp(2.3rem, 4vw, 3.2rem)/1.2 Georgia, serif; }
-    .formula p:last-child { font-size: .8rem; color: #e0e9d8; }
     .calculator { display: grid; grid-template-columns: minmax(0, .87fr) minmax(0, 1.13fr); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: var(--white); }
     .entry, .result { min-width: 0; padding: 29px 32px 31px; }
     h2 { font-size: 1.22rem; letter-spacing: -.035em; }
@@ -50,69 +46,55 @@
     .hint, .error { margin-top: 8px; font-size: .78rem; }
     .hint { color: var(--muted); }
     .error { color: #8f251e; }
-    .examples { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin-top: 21px; color: var(--muted); font-size: .78rem; }
-    .examples button, .match { border: 1px solid #b9c9b7; border-radius: 7px; background: var(--white); color: var(--forest); font-family: var(--mono); }
-    .examples button { padding: 4px 10px; }
-    .examples button:hover, .match:hover { background: #e3eddb; }
+    .match { border: 1px solid #b9c9b7; border-radius: 7px; background: var(--white); color: var(--forest); font-family: var(--mono); }
+    .match:hover { background: #e3eddb; }
     .result { background: #eaf1e2; border-left: 1px solid var(--line); }
     .result-title { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; column-gap: 8px; }
     .target { font: .85rem var(--mono); color: #365641; }
     .stat { margin-top: 3px; font-size: 1rem; font-weight: 800; }
     .stat strong { font: 600 clamp(3rem, 5.5vw, 4.1rem)/1.12 var(--mono); letter-spacing: -.08em; margin-right: 8px; color: var(--forest); }
     .stat span { font-size: .84rem; color: var(--muted); margin-left: 9px; font-weight: 500; }
+    .output { margin-top: 8px; font-size: .91rem; white-space: pre-wrap; overflow-wrap: anywhere; }
     .matches { display: flex; flex-wrap: wrap; gap: 7px; margin: 11px 0 0; padding: 0; list-style: none; max-height: 176px; overflow: auto; }
     .matches li { padding: 4px; }
     .match { padding: 4px 11px; font-weight: 700; }
     .match[aria-expanded="true"] { background: var(--forest); color: white; }
     .proof, .empty { margin-top: 9px; font-size: .8rem; color: var(--muted); }
     .proof { overflow-wrap: anywhere; }
-    .explain { display: grid; grid-template-columns: minmax(0, .87fr) minmax(0, 1.13fr); gap: 36px; padding-block: 39px 50px; align-items: start; }
-    .steps { margin: 14px 0 0; padding-inline-start: 1.55rem; color: var(--muted); font-size: .92rem; }
-    .steps li { padding-inline-start: 5px; margin-bottom: 9px; }
-    .steps li::marker { color: var(--forest); font: 700 .87rem var(--mono); }
-    .code-panel { background: #182b23; color: #eff5ec; border-radius: 14px; overflow: hidden; }
-    .code-panel details + details { border-top: 1px solid #53655b; }
-    summary { cursor: pointer; padding: 13px 17px; font-size: .86rem; font-weight: 750; }
-    summary::marker { color: var(--lime); }
-    summary:focus-visible { outline-color: var(--lime); outline-offset: -4px; }
-    .language { float: right; color: #cfdea9; font: .76rem/1.9 var(--mono); }
-    pre { margin: 0; padding: 15px 17px 18px; border-top: 1px solid #53655b; overflow: auto; font: .78rem/1.65 var(--mono); }
+    .program { padding-block: 30px 42px; }
+    .program h2 { margin-bottom: 10px; }
+    .credit { margin-top: 10px; color: var(--muted); }
+    .credit small { font-size: .75rem; }
+    pre { margin: 0; padding: 15px 17px 18px; border-radius: 14px; background: #182b23; color: #eff5ec; overflow: auto; font: .82rem/1.65 var(--mono); }
     pre:focus-visible { outline-color: var(--lime); outline-offset: -4px; }
     code { font: inherit; }
     [hidden] { display: none !important; }
     @media (max-width: 760px) {
       .wrap { width: min(570px, calc(100% - 32px)); }
-      .hero, .calculator, .explain { grid-template-columns: minmax(0, 1fr); }
-      .hero { gap: 22px; padding-block: 33px 24px; }
+      .calculator { grid-template-columns: minmax(0, 1fr); }
+      .hero { padding-block: 33px 24px; }
       .lead { margin-top: 12px; }
-      .formula, .entry, .result { padding: 19px 21px; }
+      .entry, .result { padding: 19px 21px; }
       .result { border-left: 0; border-top: 1px solid var(--line); }
-      .explain { gap: 15px; padding-block: 28px 34px; }
+      .program { padding-block: 24px 34px; }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="wrap top">
-      <span class="brand"><span class="mark" aria-hidden="true">Σ</span> 川島数</span>
-      <a class="jump" href="#how">計算のしくみ ↓</a>
+      <span class="brand"><span class="mark" aria-hidden="true">Σ</span> カワシマ数</span>
+      <a class="jump" href="#program">プログラム</a>
     </div>
   </header>
 
   <main class="wrap">
     <section class="hero" aria-labelledby="title">
-      <div>
-        <h1 id="title">川島数を調べる</h1>
-        <p class="lead">約数の和が、入力した数と等しくなる整数を探します。</p>
-      </div>
-      <div class="formula">
-        <p>約数の和</p>
-        <p class="equation">σ(n) = k</p>
-        <p>σ(n) は n の正の約数をすべて足した値。</p>
-      </div>
+      <h1 id="title">カワシマ数を調べる</h1>
+      <p class="lead">約数の和が、入力した数と等しくなる整数を探します。</p>
     </section>
 
-    <section class="calculator" aria-label="川島数の計算">
+    <section class="calculator" aria-label="カワシマ数の計算">
       <div class="entry">
         <h2>数を入力</h2>
         <form id="calculator" novalidate>
@@ -124,12 +106,6 @@
           <p class="hint" id="hint">1 〜 1,000,000 の整数</p>
           <p class="error" id="error" role="alert" hidden></p>
         </form>
-        <div class="examples" id="examples">
-          <span>入力例</span>
-          <button type="button" value="12">12</button>
-          <button type="button" value="28">28</button>
-          <button type="button" value="1224">1224</button>
-        </div>
         <noscript><p class="error">計算には JavaScript を有効にしてください。</p></noscript>
       </div>
 
@@ -138,40 +114,24 @@
           <h2 id="result-heading">計算結果</h2>
           <span class="target" id="result-target"></span>
         </div>
-        <div role="status" aria-atomic="true">
-          <p class="stat"><strong id="count"></strong>個<span>あなたの川島数</span></p>
-          <p class="empty" id="empty" hidden>約数の和がこの値になる整数はありません。</p>
-        </div>
+        <p class="stat"><strong id="count"></strong>個<span>あなたのカワシマ数</span></p>
+        <p class="output" id="print-output" role="status" aria-atomic="true"></p>
+        <p class="empty" id="empty" hidden>約数の和がこの値になる整数はありません。</p>
         <ul class="matches" id="matches" aria-label="該当する整数"></ul>
         <p class="proof" id="proof" aria-live="polite"></p>
       </div>
     </section>
 
-    <section class="explain" id="how" aria-labelledby="how-heading">
-      <div>
-        <h2 id="how-heading">計算のしくみ</h2>
-        <ol class="steps">
-          <li>候補は 1 から <i>k</i> まで。<i>n</i> 自身が約数なので、約数の和は <i>n</i> 以上です。</li>
-          <li>各整数 <i>d</i> を、その倍数すべての約数の和に加えます。</li>
-          <li>約数の和が <i>k</i> と一致した整数を集め、個数を表示します。</li>
-        </ol>
-      </div>
-      <div class="code-panel">
-        <details open>
-          <summary>サイトで動く計算コード <span class="language">JavaScript</span></summary>
-          <pre tabindex="0" aria-label="JavaScript のソースコード"><code id="javascript-code"></code></pre>
-        </details>
-        <details>
-          <summary>元のプログラム <span class="language">Python</span></summary>
-          <pre tabindex="0" aria-label="Python のソースコード"><code>import sympy
+    <section class="program" id="program" aria-labelledby="program-heading">
+      <h2 id="program-heading">プログラム</h2>
+      <pre tabindex="0" aria-label="Python のソースコード"><code>import sympy
 import numpy as np
 k=1224
 t= np.arange(1,k+1)
 table= np.array([sum(sympy.divisors(i)) for i in t])
 table= t[table==k]
 print(f"あなたの川島数は{len(table)}でその数は{table}です")</code></pre>
-        </details>
-      </div>
+      <p class="credit"><small>このプログラムはO・S氏によって作られました。</small></p>
     </section>
   </main>
 
@@ -214,7 +174,6 @@ print(f"あなたの川島数は{len(table)}でその数は{table}です")</code
     const matchList = document.querySelector("#matches");
     const proof = document.querySelector("#proof");
     const proofPrompt = "数を選ぶと約数の内訳を確認できます。";
-    document.querySelector("#javascript-code").textContent = findMatches.toString().replace(/^ {4}/gm, "");
 
     function calculate() {
       const value = input.value.trim().normalize("NFKC");
@@ -236,6 +195,9 @@ print(f"あなたの川島数は{len(table)}でその数は{table}です")</code
       const matches = findMatches(k);
       document.querySelector("#result-target").textContent = `k = ${format.format(k)}`;
       document.querySelector("#count").textContent = format.format(matches.length);
+      const width = String(matches.at(-1) ?? "").length;
+      const table = matches.map((n) => String(n).padStart(width)).join(" ");
+      document.querySelector("#print-output").textContent = `あなたのカワシマ数は${matches.length}でその数は[${table}]です`;
       document.querySelector("#empty").hidden = matches.length !== 0;
       proof.textContent = matches.length ? proofPrompt : "";
       matchList.scrollTop = 0;
@@ -257,13 +219,6 @@ print(f"あなたの川島数は{len(table)}でその数は{table}です")</code
 
     document.querySelector("#calculator").addEventListener("submit", (event) => {
       event.preventDefault();
-      calculate();
-    });
-
-    document.querySelector("#examples").addEventListener("click", (event) => {
-      const example = event.target.closest("button");
-      if (!example) return;
-      input.value = example.value;
       calculate();
     });
 
